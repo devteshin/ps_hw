@@ -1,13 +1,10 @@
 <script setup>
-  let today = new Date();
-  const dd = String(today.getDate()).padStart(2, '0');
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const yyyy = today.getFullYear();
-  today = dd + '.' + mm + '.' + yyyy;
+  const now = new Date();
+  const shortDate = new Intl.DateTimeFormat("ru", {dateStyle: "short"}).format(now);
 </script>
 
 <template>
-  <main>{{ today }}</main>
+  <main>{{ shortDate }}</main>
 </template>
 
 <style scoped></style>
