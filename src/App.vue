@@ -1,10 +1,9 @@
 <script setup>
-  const now = new Date();
-  const shortDate = new Intl.DateTimeFormat("ru", {dateStyle: "short"}).format(now);
+import Button from './components/Button.vue';
 </script>
 
 <template>
-  <main>{{ shortDate }}</main>
+  <Button>Начать игру</Button>
 </template>
 
 <style scoped></style>
