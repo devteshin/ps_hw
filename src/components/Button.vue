@@ -16,7 +16,6 @@
         border-radius: 100px;
         padding: 16px 10px;
         gap: 10px;
-        background: #008BFE;
         font-family: Roboto;
         font-weight: 400;
         font-size: 24px;
@@ -24,8 +23,8 @@
         letter-spacing: 0%;
         text-align: center;
         border: none;
-        color: #FFFFFF;
-        ;
+        background: var(--button-bg);
+        color: var(--button-color);
     }
 </style>
 
