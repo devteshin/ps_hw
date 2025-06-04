@@ -4,6 +4,29 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --button-bg: #008BFE;
+  --score-button-color: #CCE8FF;
   --button-color: #FFFFFF;
+  --field-color: #F0F4F8;
+    background: #F0F4F8;
   }
+
+
+
+.header {
+  background: var(--field-color);
+  font-family: Roboto;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 12%;
+}
+
+.holder {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 66px;
+  padding-right: 66px;
+}
+
 
