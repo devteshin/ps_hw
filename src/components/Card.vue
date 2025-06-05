@@ -1,12 +1,8 @@
 <script setup>
 
 const emit = defineEmits({
-    turnCard(payload) {
-        return payload;
-    },
-    changeStatusCard(payload) {
-        return payload;
-    },
+    turnCard: null,
+    changeStatusCard: null
 });
 
 function turn() {
@@ -21,11 +17,11 @@ function changeStatus() {
 
 <template>
     <div class="card">
-        <div class="card-border">
-            <div class="inner-border">
+        <div class="card-border" @click.self="turn">
+            <div class="inner-border" @click.self="turn">
                 <div class="card-number">06</div>
-                <div class="card-word">Unadmited</div>
-                <div class="card-status">ПЕРЕВЕРНУТЬ</div>
+                <div class="card-word"  @click="turn">Unadmited</div>
+                <div class="card-status" @click="changeStatus">ПЕРЕВЕРНУТЬ</div>
             </div>
         </div>
     </div>

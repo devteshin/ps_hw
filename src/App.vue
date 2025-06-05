@@ -1,6 +1,15 @@
 <script setup>
 import Card from './components/Card.vue';
 import Score from './components/Score.vue';
+
+function turnCard() {
+  console.log("turn")
+}
+
+function changeStatusCard() {
+  console.log("change status")
+}
+
 </script>
 
 <template>
@@ -13,7 +22,7 @@ import Score from './components/Score.vue';
         </Score>
       </div>
   </header>
-  <Card />
+  <Card @turn-card="turnCard" @change-status-card="changeStatusCard"/>
 
 
 </template>
