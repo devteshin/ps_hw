@@ -1,6 +1,7 @@
 <script setup>
 import Card from './components/Card.vue';
 import Score from './components/Score.vue';
+import { ref } from "vue";
 
 function turnCard() {
   console.log("turn")
@@ -10,6 +11,16 @@ function changeStatusCard() {
   console.log("change status")
 }
 
+let UserScore = ref(0);
+
+let cardData = ref({
+  word: "car",
+  translation: "автомобиль",
+  state: "closed",
+  status: "pending",
+
+});
+
 </script>
 
 <template>
@@ -17,12 +28,12 @@ function changeStatusCard() {
   <header class="header">
       <div class="holder">
         <div>ЗАПОМНИ СЛОВО</div>
-        <Score :value="100">
+        <Score :value="UserScore">
           
         </Score>
       </div>
   </header>
-  <Card @turn-card="turnCard" @change-status-card="changeStatusCard"/>
+  <Card @turn-card="turnCard" @change-status-card="changeStatusCard" v-bind="cardData"/>
 
 
 </template>

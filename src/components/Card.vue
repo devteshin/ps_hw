@@ -13,6 +13,14 @@ function changeStatus() {
     emit('changeStatusCard')
 }
 
+const cardData = defineProps({
+    word: String,
+    translation: String,
+    state: String,
+    status: String,
+})
+
+
 </script>
 
 <template>
@@ -20,7 +28,7 @@ function changeStatus() {
         <div class="card-border" @click.self="turn">
             <div class="inner-border" @click.self="turn">
                 <div class="card-number">06</div>
-                <div class="card-word"  @click="turn">Unadmited</div>
+                <div class="card-word"  @click="turn">{{cardData.word}}</div>
                 <div class="card-status" @click="changeStatus">ПЕРЕВЕРНУТЬ</div>
             </div>
         </div>
