@@ -13,13 +13,34 @@ function changeStatusCard() {
 
 let UserScore = ref(0);
 
-let cardData = ref({
-  word: "car",
-  translation: "автомобиль",
-  state: "closed",
-  status: "pending",
+let cardData = ref([
+    {
+      word: "car",
+      translation: "автомобиль",
+      state: "closed",
+      status: "pending",
+    },
+    {
+      word: "car",
+      translation: "автомобиль",
+      state: "opened",
+      status: "pending",
+    },
+    {
+      word: "car",
+      translation: "автомобиль",
+      state: "opened",
+      status: "success",
+    },
+    {
+      word: "car",
+      translation: "автомобиль",
+      state: "opened",
+      status: "fail",
+    },    
+  ]
+);
 
-});
 
 </script>
 
@@ -29,13 +50,10 @@ let cardData = ref({
       <div class="holder">
         <div>ЗАПОМНИ СЛОВО</div>
         <Score :value="UserScore">
-          
         </Score>
       </div>
   </header>
-  <Card @turn-card="turnCard" @change-status-card="changeStatusCard" v-bind="cardData"/>
-
-
+  <Card v-for="cardItem in cardData" :key="cardItem.word" @turn-card="turnCard" @change-status-card="changeStatusCard" v-bind="cardItem"/>
 </template>
 
 <style scoped></style>

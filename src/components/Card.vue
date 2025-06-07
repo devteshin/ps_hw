@@ -1,4 +1,8 @@
 <script setup>
+import FailIcon from './icons/FailIcon.vue';
+import SuccessIcon from './icons/SuccessIcon.vue';
+import StatusSuccessIcon from './icons/StatusSuccessIcon.vue';
+import StatusFailIcon from './icons/StatusFailIcon.vue';
 
 const emit = defineEmits({
     turnCard: null,
@@ -28,8 +32,16 @@ const cardData = defineProps({
         <div class="card-border" @click.self="turn">
             <div class="inner-border" @click.self="turn">
                 <div class="card-number">06</div>
-                <div class="card-word"  @click="turn">{{cardData.word}}</div>
-                <div class="card-status" @click="changeStatus">ПЕРЕВЕРНУТЬ</div>
+                <div class="card-status-success-icon" v-if="status==='success'"><StatusSuccessIcon /></div>
+                <div class="card-status-fail-icon" v-else-if="status==='fail'"><StatusFailIcon /></div>
+                <div class="card-word"  v-if="state==='closed'" @click="turn">{{cardData.word}}</div>
+                <div class="card-word"  v-else @click="turn">{{cardData.translation}}</div>
+                <div class="card-status" @click="changeStatus" v-show="state==='closed'">ПЕРЕВЕРНУТЬ</div>
+                <div class="card-status" @click="changeStatus" v-show="state==='opened' & status==='pending'">
+                    <FailIcon />
+                    <SuccessIcon />
+                </div>
+                <div class="card-status" @click="changeStatus" v-show="state==='opened' & status!=='pending'">ЗАВЕРШЕНО</div>
             </div>
         </div>
     </div>
@@ -105,7 +117,18 @@ const cardData = defineProps({
         text-align: center;
         color: #222222;
         background: #FFFFFF;
-        
+        display: flex;
+        justify-content: center;
+        gap: 32px;
+    }
+
+    .card-status-success-icon {
+        position: absolute;
+        top: -13px; left: 90px;
+    }
+    .card-status-fail-icon {
+        position: absolute;
+        top: -24px; left: 82px;
     }
 
 </style>
