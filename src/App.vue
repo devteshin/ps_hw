@@ -1,7 +1,9 @@
 <script setup>
 import Card from './components/Card.vue';
 import Score from './components/Score.vue';
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+
+const API_ENDPOINT = "http://localhost:8080/api/random-words";
 
 function turnCard() {
   console.log("turn")
@@ -13,34 +15,28 @@ function changeStatusCard() {
 
 let UserScore = ref(0);
 
-let cardData = ref([
-    {
-      word: "car",
-      translation: "автомобиль",
-      state: "closed",
-      status: "pending",
-    },
-    {
-      word: "car",
-      translation: "автомобиль",
-      state: "opened",
-      status: "pending",
-    },
-    {
-      word: "car",
-      translation: "автомобиль",
-      state: "opened",
-      status: "success",
-    },
-    {
-      word: "car",
-      translation: "автомобиль",
-      state: "opened",
-      status: "fail",
-    },    
-  ]
-);
+let cardData = ref([{}]);
 
+let error = ref();
+
+async function getCardData() {
+  const res = await fetch(`${API_ENDPOINT}`);
+  if (res.status !== 200) {
+    error.value = await res.json();
+    cardData.value = null;  
+    return;
+  }
+  error.value = null;
+  cardData.value = await res.json();
+  cardData.value.forEach(function (element) {
+  element.state = "closed";
+  element.status = "pending"
+  });
+};
+
+onMounted(()=>{
+  getCardData();
+});
 
 </script>
 
@@ -53,7 +49,18 @@ let cardData = ref([
         </Score>
       </div>
   </header>
-  <Card v-for="cardItem in cardData" :key="cardItem.word" @turn-card="turnCard" @change-status-card="changeStatusCard" v-bind="cardItem"/>
+  <div class="card-field">
+    <Card v-for="cardItem in cardData" :key="cardItem.word"  
+      @turn-card="turnCard" 
+      @change-status-card="changeStatusCard" 
+      v-bind="cardItem"/>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+  .card-field {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 1%;
+  }
+</style>

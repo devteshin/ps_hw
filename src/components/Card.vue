@@ -6,7 +6,7 @@ import StatusFailIcon from './icons/StatusFailIcon.vue';
 
 const emit = defineEmits({
     turnCard: null,
-    changeStatusCard: null
+    changeStatusCard: null,
 });
 
 function turn() {
@@ -24,6 +24,7 @@ const cardData = defineProps({
     status: String,
 })
 
+const cardNumber = 1;
 
 </script>
 
@@ -31,7 +32,7 @@ const cardData = defineProps({
     <div class="card">
         <div class="card-border" @click.self="turn">
             <div class="inner-border" @click.self="turn">
-                <div class="card-number">06</div>
+                <div class="card-number">{{ cardNumber }}</div>
                 <div class="card-status-success-icon" v-if="status==='success'"><StatusSuccessIcon /></div>
                 <div class="card-status-fail-icon" v-else-if="status==='fail'"><StatusFailIcon /></div>
                 <div class="card-word"  v-if="state==='closed'" @click="turn">{{cardData.word}}</div>
