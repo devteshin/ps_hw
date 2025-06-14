@@ -29,13 +29,11 @@ const errorDisplay = computed(() => {
   return error.value;
 });
 
-
-
 async function getCardData() {
   try {
     const res = await fetch(`${API_ENDPOINT}`);
     if (res.status !== 200) {
-      error.value = await res.json();
+      error.value = "Ошибка загрузки словаря. Статус запроса: " + res.status;
       cardData.value = null;  
       return;
     }
@@ -48,7 +46,7 @@ async function getCardData() {
   }
   catch {
     cardData.value = null;
-    error.value = { message: 'Ошибка сети' };
+    error.value = "Ошибка сети";
   }
 };
 
