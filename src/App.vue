@@ -25,7 +25,11 @@ let cardData = ref([{}]);
 
 let error = ref();
 
-const errorDisplay = "Ошибка загрузки словаря";
+const errorDisplay = computed(() => {
+  return error.value;
+});
+
+
 
 async function getCardData() {
   try {
@@ -44,6 +48,7 @@ async function getCardData() {
   }
   catch {
     cardData.value = null;
+    error.value = { message: 'Ошибка сети' };
   }
 };
 

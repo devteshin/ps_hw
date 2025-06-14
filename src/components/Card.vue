@@ -10,7 +10,7 @@ const emit = defineEmits({
 });
 
 function turn() {
-    if (cardData.status !== 'pending'  & cardData.state==='opened') {
+    if (cardData.status !== 'pending'  && cardData.state==='opened') {
         return;
     }
     emit('turnCard', cardData.index);
@@ -40,11 +40,11 @@ const cardData = defineProps({
                 <div class="card-word"  v-if="state==='closed'" @click="turn">{{cardData.translation}}</div>
                 <div class="card-word"  v-else @click="turn">{{cardData.word}}</div>
                 <div class="card-status" v-show="state==='closed'">ПЕРЕВЕРНУТЬ</div>
-                <div class="card-status" v-show="state==='opened' & status==='pending'">
+                <div class="card-status" v-show="state==='opened' && status==='pending'">
                     <FailIcon @click="changeStatus('fail')"/>
                     <SuccessIcon @click="changeStatus('success')"/>
                 </div>
-                <div class="card-status" v-show="state==='opened' & status!=='pending'">ЗАВЕРШЕНО</div>
+                <div class="card-status" v-show="state==='opened' && status!=='pending'">ЗАВЕРШЕНО</div>
             </div>
         </div>
     </div>
