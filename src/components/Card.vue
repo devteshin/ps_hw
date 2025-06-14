@@ -10,11 +10,14 @@ const emit = defineEmits({
 });
 
 function turn() {
-    emit('turnCard')
+    if (cardData.status !== 'pending'  & cardData.state==='opened') {
+        return;
+    }
+    emit('turnCard', cardData.index);
 }
 
-function changeStatus() {
-    emit('changeStatusCard')
+function changeStatus(status) {
+    emit('changeStatusCard', cardData.index, status);
 }
 
 const cardData = defineProps({
@@ -22,9 +25,8 @@ const cardData = defineProps({
     translation: String,
     state: String,
     status: String,
+    index: Number,
 })
-
-const cardNumber = 1;
 
 </script>
 
@@ -32,17 +34,17 @@ const cardNumber = 1;
     <div class="card">
         <div class="card-border" @click.self="turn">
             <div class="inner-border" @click.self="turn">
-                <div class="card-number">{{ cardNumber }}</div>
+                <div class="card-number">{{ index + 1 }}</div>
                 <div class="card-status-success-icon" v-if="status==='success'"><StatusSuccessIcon /></div>
                 <div class="card-status-fail-icon" v-else-if="status==='fail'"><StatusFailIcon /></div>
-                <div class="card-word"  v-if="state==='closed'" @click="turn">{{cardData.word}}</div>
-                <div class="card-word"  v-else @click="turn">{{cardData.translation}}</div>
-                <div class="card-status" @click="changeStatus" v-show="state==='closed'">ПЕРЕВЕРНУТЬ</div>
-                <div class="card-status" @click="changeStatus" v-show="state==='opened' & status==='pending'">
-                    <FailIcon />
-                    <SuccessIcon />
+                <div class="card-word"  v-if="state==='closed'" @click="turn">{{cardData.translation}}</div>
+                <div class="card-word"  v-else @click="turn">{{cardData.word}}</div>
+                <div class="card-status" v-show="state==='closed'">ПЕРЕВЕРНУТЬ</div>
+                <div class="card-status" v-show="state==='opened' & status==='pending'">
+                    <FailIcon @click="changeStatus('fail')"/>
+                    <SuccessIcon @click="changeStatus('success')"/>
                 </div>
-                <div class="card-status" @click="changeStatus" v-show="state==='opened' & status!=='pending'">ЗАВЕРШЕНО</div>
+                <div class="card-status" v-show="state==='opened' & status!=='pending'">ЗАВЕРШЕНО</div>
             </div>
         </div>
     </div>

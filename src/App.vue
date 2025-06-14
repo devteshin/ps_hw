@@ -1,16 +1,22 @@
 <script setup>
 import Card from './components/Card.vue';
 import Score from './components/Score.vue';
-import { onMounted, ref } from "vue";
+import Error from './components/Error.vue';
+import { onMounted, ref, computed } from "vue";
 
 const API_ENDPOINT = "http://localhost:8080/api/random-words";
 
-function turnCard() {
-  console.log("turn")
+function turnCard(index) {
+  if (cardData.value[index].state === "closed") {
+    cardData.value[index].state = "opened"
+  }
+  else {
+    cardData.value[index].state = "closed"
+  }
 }
 
-function changeStatusCard() {
-  console.log("change status")
+function changeStatusCard(index, newStatus) {
+  cardData.value[index].status = newStatus
 }
 
 let UserScore = ref(0);
@@ -19,19 +25,26 @@ let cardData = ref([{}]);
 
 let error = ref();
 
+const errorDisplay = "Ошибка загрузки словаря";
+
 async function getCardData() {
-  const res = await fetch(`${API_ENDPOINT}`);
-  if (res.status !== 200) {
-    error.value = await res.json();
-    cardData.value = null;  
-    return;
+  try {
+    const res = await fetch(`${API_ENDPOINT}`);
+    if (res.status !== 200) {
+      error.value = await res.json();
+      cardData.value = null;  
+      return;
+    }
+    error.value = null;
+    cardData.value = await res.json();
+    cardData.value.forEach(function (element) {
+    element.state = "closed";
+    element.status = "pending"
+    });
   }
-  error.value = null;
-  cardData.value = await res.json();
-  cardData.value.forEach(function (element) {
-  element.state = "closed";
-  element.status = "pending"
-  });
+  catch {
+    cardData.value = null;
+  }
 };
 
 onMounted(()=>{
@@ -49,12 +62,15 @@ onMounted(()=>{
         </Score>
       </div>
   </header>
-  <div class="card-field">
-    <Card v-for="cardItem in cardData" :key="cardItem.word"  
+  <div class="card-field" v-if="cardData">
+    <Card v-for="(cardItem, index) in cardData" :key="cardItem.word"  
       @turn-card="turnCard" 
       @change-status-card="changeStatusCard" 
-      v-bind="cardItem"/>
+      v-bind="cardItem"
+      :index="index"
+      />
   </div>
+  <Error  v-else :error="errorDisplay"/>
 </template>
 
 <style scoped>
