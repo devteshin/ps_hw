@@ -10,7 +10,12 @@
     background: #F0F4F8;
   }
 
-
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100vh;
+}  
 
 .header {
   background: var(--field-color);
